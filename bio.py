@@ -121,3 +121,38 @@ def min_gc_skews(genome):
       min_skews = [idx]
 
   return min_skews
+
+###
+
+def fuzzy_occurrences(sequence, kmer, fuzziness):
+  occurrences = []
+  k = len(kmer)
+  kmer_end_idx = k - 1
+
+  for start_idx in range(1 + len(sequence) - k):
+    differences = 0
+    for kmer_idx,base in enumerate(kmer):
+      if sequence[start_idx + kmer_idx] != base:
+        differences += 1
+      if differences > fuzziness:
+        break
+      if kmer_idx == kmer_end_idx:
+        occurrences.append(start_idx)
+    
+  return occurrences
+
+###
+
+#def most_frequent_fuzzy_kmer(sequence, k, fuzziness):
+
+def mutations(kmer, fuzziness):
+  alt_bases = {"A": ["T", "G", "C"], "T": ["A", "G", "C"], "G": ["A", "T", "C"], "C": ["A", "T", "G"]}
+  mutations = [kmer]
+
+  for idx,base in enumerate(kmer):
+    for alt_base in alt_bases[base]:
+      kmer[idx] = alt_base
+      mutations.append(kmer)
+    kmer[idx] = base
+
+  return mutations
