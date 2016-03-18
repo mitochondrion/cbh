@@ -10,7 +10,7 @@ def frequency_per_kmer(sequence, k):
 
 ###
 
-def kmers_per_frequeny(sequence, k):
+def kmers_per_frequency(sequence, k):
   count_kmers = defaultdict(list)
   kmer_counts = frequency_per_kmer(sequence, k)
   
@@ -22,7 +22,7 @@ def kmers_per_frequeny(sequence, k):
 ###
 
 def most_frequent_kmers(sequence, k):
-  count_kmers = kmers_per_frequeny(sequence, k)
+  count_kmers = kmers_per_frequency(sequence, k)
  
   return count_kmers[max(count_kmers.keys())]
 
