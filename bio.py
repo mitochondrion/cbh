@@ -156,3 +156,44 @@ def mutations(kmer, fuzziness):
     kmer[idx] = base
 
   return mutations
+
+###
+
+symbolToNumber = { "A": 0, "C": 1, "G": 2, "T": 3 }
+numberToSymbol = ["A", "C", "G", "T"]
+###
+
+def patternToNumber(pattern):
+  if len(pattern) is 0:
+    return 0
+  
+  symbol = pattern[-1:]
+  prefix = pattern[:-1]
+  return 4 * patternToNumber(prefix) + symbolToNumber[symbol]
+
+###
+
+def patternToNumberIter(pattern):
+  result = 0
+
+  for i,base in enumerate(pattern[::-1]):
+    result += (4**i) * patternToNumber(base)
+
+  return result
+
+###
+
+def numberToPatternIter(number, length):
+  if number == 0: return "A"
+
+  pattern = ""
+  quotient = 1
+  remainder = 0
+
+  while number is not 0:
+    remainder = number % 4
+    number = number // 4
+    pattern = numberToSymbol[remainder] + pattern
+
+  padding = 'A' * (length - len(pattern))
+  return padding + pattern
